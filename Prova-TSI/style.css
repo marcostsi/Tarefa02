@@ -1,0 +1,24 @@
+body {
+    overflow: hidden;
+    margin: auto;
+    width: 66%;
+    background-image: url("bg.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+canvas {
+    width: 100%;
+    background-color: green;
+
+}
+main{
+    display: flex;
+    padding: 1rem;
+    background-color: beige;
+}
+form {
+    min-width: 25%;
+    display: flex;
+    flex-direction: column;
+    background-color: beige;
+}
