@@ -1,3 +1,32 @@
+import Team from "./team.js";
+import Ball from "./ball.js";
+
+document.getElementById("buttonStart").addEventListener("click", start)
+
+document.getElementById("red") .addEventListener("submit", function (event) {
+  event.preventDefault(); 
+
+  const tamanhoVermelho = document.querySelector("#tamanhoVermelho").value;
+  const quantidadeVermelho = document.querySelector("#quantidadeVermelho").value;
+  const velocidadeVermelho = document.querySelector("#velocidadeVermelho").value;
+
+  team_red.atualizarConfiguraçoes(quantidadeVermelho, velocidadeVermelho);
+  team_red.atualizarAltura(tamanhoVermelho);
+});
+
+document.getElementById("blue") .addEventListener("submit", function (event) {
+  event.preventDefault(); 
+  
+  const tamanhoAzul = document.querySelector("#tamanhoAzul").value;
+  const quantidadeAzul = document.querySelector("#quantidadeAzul").value;
+  const velocidadeAzul = document.querySelector("#velocidadeAzul").value;
+  
+  team_blue.atualizarConfiguraçoes(quantidadeAzul, velocidadeAzul);
+  team_blue.atualizarAltura(tamanhoAzul);
+});
+
+
+
 // set up canvas
 
 const canvas = document.querySelector("canvas");
@@ -12,105 +41,28 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/*
-Podem ser usadas para fornecer mais informações para indicar isso adiconado uma tag.
-*/
-class Ball {
-  constructor(x, y, velX, velY, color, size) {
-    this.x = x;
-    this.y = y;
-    this.velX = velX;
-    this.velY = velY;
-    this.color = color;
-    this.size = size;
-  }
 
-  draw() {
-    ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-    ctx.fill();
-  }
-
-  update() {
-    if (this.x + this.size >= width) {
-      this.velX = -Math.abs(this.velX);
-    }
-
-    if (this.x - this.size <= 0) {
-      this.velX = Math.abs(this.velX);
-    }
-
-    if (this.y + this.size >= height) {
-      this.velY = -Math.abs(this.velY);
-    }
-
-    if (this.y - this.size <= 0) {
-      this.velY = Math.abs(this.velY);
-    }
-
-    this.x += this.velX;
-    this.y += this.velY;
-  }
-
-  collisionDetect(goal1, goal2) {
-    if (
-      this.x - this.size <  goal1.x + 1  && 
-      (this.y - this.size > goal1.y && this.y < goal1.y + goal1.h) &&
-      this.color !== goal1.color
-    ){
-      console.log("gol")
-    }
-
-    if (this.x - this.size >  goal2.x && 
-      (this.y - this.size > goal2.y && this.y < goal1.y + goal1.h ) &&
-      this.color !== goal2.color
-    ){
-      console.log("gol")
-    }
-  }
-}
-
-
-/*
-Podem ser usadas para fornecer mais informações para indicar isso adiconado uma tag.
-*/
-
-class Team {
-  constructor(x,y, w, h, color) {
-    this.name = color
-    this.x = x
-    this.y = y
-    this.w = w
-    this.h = h
-    this.color = color
-  }
-
-  draw() {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x,this.y, this.w, this.h);
-  }
-}
 /*
 Aqui usa um array
 */
-const balls = [];
-let team_red = new Team(0, height/2 - 50, 30, 100, "red")
-let team_blue = new Team(width - 30, height/2 - 50, 30, 100, "blue")
+let balls = [];
+let team_red = new Team(0, 30, 100, "red")
+let team_blue = new Team(width - 30, 30, 100, "blue")
 
 /*
 Podem ser usadas para fornecer mais informações para indicar isso adiconado uma tag.
 */
 function start(){
+  balls = []; // Limpa bolas existentes
   for (let i = 0; i < team_red.balls_count; i++) {
     const size = random(10, 20);
     const ball_red = new Ball(
-      // ball position always drawn at least one ball width
-      // away from the edge of the canvas, to avoid drawing errors
+      // posição da bola sempre desenhada com pelo menos uma largura de bola
+      //  longe da borda da tela, para evitar erros de desenho
       random(0 + size, width - size),
       random(0 + size, height - size),
-      random(1,20),
-      random(-7, 7),
+      parseInt(document.querySelector("#velocidadeVermelho").value),
+      parseInt(document.querySelector("#velocidadeVermelho").value),
       "red",
       size
     );
@@ -119,12 +71,12 @@ function start(){
   for (let i = 0; i < team_blue.balls_count; i++)  {
     const size = random(10, 20);
     const ball_blue = new Ball(
-      // ball position always drawn at least one ball width
-      // away from the edge of the canvas, to avoid drawing errors
+      // posição da bola sempre desenhada com pelo menos uma largura de bola
+      // longe da borda da tela, para evitar erros de desenho
       random(0 + size, width - size),
       random(0 + size, height - size),
-      random(1,20),
-      random(-7, 7),
+      parseInt(document.querySelector("#velocidadeAzul").value),
+      parseInt(document.querySelector("#velocidadeAzul").value),
       "blue",
       size
     );
@@ -132,6 +84,24 @@ function start(){
   }
   
 }
+
+function resertGame(){
+  document.getElementById('tamanhoVermelho').value = 100;
+  document.getElementById('quantidadeVermelho').value = 1;
+  document.getElementById('velocidadeVermelho').value = 10;
+  document.getElementById('tamanhoAzul').value = 100;
+  document.getElementById('quantidadeAzul').value = 1;
+  document.getElementById('velocidadeAzul').value = 10;
+  
+  team_red.atualizarAltura(100);
+  team_blue.atualizarAltura(100);
+  team_red.atualizarConfiguraçoes(1, 10); // 1 bola, velocidade 10
+  team_blue.atualizarConfiguraçoes(1, 10); // 1 bola, velocidade 10
+  team_red.pontuacao = 0;
+  team_blue.pontuacao = 0;
+}
+document.getElementById('reset-game').addEventListener('click', resertGame);
+resertGame();
 
 
 

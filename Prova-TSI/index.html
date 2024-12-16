@@ -11,25 +11,30 @@
     <h1> Versus </h1>
     <main>
       <form id="red">
-        <div>Time 1</div>
-        <input type="text" placeholder="Tamanho da trava"><br>
-        <input type="text" placeholder="Quantidade de bolas"><br>
-        <input type="text" placeholder="Velocidade das bolas"><br>
-        <button id="empurrar">Definir</button>
+        <div>Time Vermelho</div>
+        <label for="trave-height">Altura da Trave:</label>
+        <input type="number" id="tamanhoVermelho" placeholder="Tamanho da trava" required><br /><br />
+        <input type="number" id="quantidadeVermelho" min="1" placeholder="Quantidade de bolas" required><br /><br />
+        <input type="number" id="velocidadeVermelho" min="1" placeholder="Velocidade das bolas" required><br /><br />
+        <button class="botao">Definir</button>
+        <div id="pontucaoVermelho">Pontuação: 0</div>
       </form>
       <div id="canvas">
-        <canvas></canvas>
+        <canvas id="canvas" width="800" height="400"></canvas>
         <input type="button" value="start" id="buttonStart">
-      </div>
+          <button type="button" id="reset-game">Reset</button>
+        </div>
       <form id="blue">
-          <div>Time 2</div>
-          <input type="text" placeholder="Tamanho da trava"><br>
-          <input type="text" placeholder="Quantidade de bolas"><br>
-          <input type="text" placeholder="Velocidade das bolas"><br>
-          <button id="elemento">Definir</button>
+          <div>Time Azul</div>
+          <label for="trave-height">Altura da Trave:</label>
+          <input type="number" id="tamanhoAzul" placeholder="Tamanho da trava" required><br /><br />
+          <input type="number" id="quantidadeAzul" min="1" placeholder="Quantidade de bolas" required><br /><br />
+          <input type="number" id="velocidadeAzul" min="1" placeholder="Velocidade das bolas" required><br /><br />
+          <button class="clique">Definir</button>
+          <div id="pontucaoAzul">Pontuação: 0</div>
         </form>
       </form>
     </main>
-    <script src="main.js"></script>
+    <script src="main.js" type="module"></script>
   </body>
 </html>
